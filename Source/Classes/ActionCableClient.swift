@@ -159,9 +159,6 @@ open class ActionCableClient {
         }
     }
 	
-	
-    if #available(iOS 11.0, *) {
-     // Running iOS 11 OR NEWER
      /**
      Returns Object from ActionCable Response
      
@@ -170,6 +167,7 @@ open class ActionCableClient {
      
      - Returns: Array in a Completion block.
      */
+    @available(iOS 11.0, *)
     public func serializeActionCableObject<T: Codable>(object: T.Type, JSON : Any? ,completion: ([T]) -> ()) {
         // Check if JSON with Single Object
         if let jsonResponse = JSON as? [String:Any] {
@@ -193,9 +191,6 @@ open class ActionCableClient {
                 print("Multiple Objects JSON Parsing Error", err)
             }
         }
-    }
-    } else {
-    // Earlier version of iOS
     }
     
   
