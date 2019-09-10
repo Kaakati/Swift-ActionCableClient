@@ -159,8 +159,10 @@ open class ActionCableClient {
         }
     }
 	
-
-    /**
+	
+    if #available(iOS 11.0, *) {
+     // Running iOS 11 OR NEWER
+     /**
      Returns Object from ActionCable Response
      
      - Parameter object: Codable object
@@ -172,7 +174,7 @@ open class ActionCableClient {
         // Check if JSON with Single Object
         if let jsonResponse = JSON as? [String:Any] {
             do {
-                let jsonData = try JSONSerialization.data(withJSONObject: jsonResponse, options: .prettyPrinted)
+                let jsonData = try JSONSerialization.data(withJSONObject: jsonResponse, options: .sortedKeys)
                 let decoder = JSONDecoder()
                 let response = try decoder.decode(T.self, from: jsonData)
                 completion([response])
@@ -182,7 +184,7 @@ open class ActionCableClient {
             }
         } else if let jsonResponse = JSON as? [[String:Any]] { // JSON with Array of Objects
             do {
-                let jsonData = try JSONSerialization.data(withJSONObject: jsonResponse, options: .prettyPrinted)
+                let jsonData = try JSONSerialization.data(withJSONObject: jsonResponse, options: .sortedKeys)
                 let decoder = JSONDecoder()
                 let response = try decoder.decode([T].self, from: jsonData)
                 completion(response)
@@ -192,6 +194,10 @@ open class ActionCableClient {
             }
         }
     }
+    } else {
+    // Earlier version of iOS
+    }
+    
   
     @discardableResult
     internal func transmit(_ data: ActionPayload? = nil, on channel: Channel, as command: Command) throws -> Bool {
