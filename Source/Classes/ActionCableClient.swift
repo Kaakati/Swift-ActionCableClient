@@ -168,7 +168,7 @@ open class ActionCableClient {
      
      - Returns: Array in a Completion block.
      */
-    open func serializeActionCableObject<T: Codable>(object: T.Type, JSON : Any? ,completion: ([T]) -> ()) {
+    public func serializeActionCableObject<T: Codable>(object: T.Type, JSON : Any? ,completion: ([T]) -> ()) {
         // Check if JSON with Single Object
         if let jsonResponse = JSON as? [String:Any] {
             do {
@@ -176,7 +176,7 @@ open class ActionCableClient {
                 let decoder = JSONDecoder()
                 let response = try decoder.decode(T.self, from: jsonData)
                 completion([response])
-                print("Single Object JSON")
+                print("Recieved Single Object JSON")
             } catch let err {
                 print("Single Object JSON Parsing Error", err)
             }
@@ -186,7 +186,7 @@ open class ActionCableClient {
                 let decoder = JSONDecoder()
                 let response = try decoder.decode([T].self, from: jsonData)
                 completion(response)
-                print("Multiple Objects JSON")
+                print("Recieved Multiple Objects JSON")
             } catch let err {
                 print("Multiple Objects JSON Parsing Error", err)
             }
