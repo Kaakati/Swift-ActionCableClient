@@ -16,7 +16,8 @@ To install, simply:
 Add the following line to your `Podfile` and run `pod install`
 
 ```ruby
-pod "ActionCableClient"
+pod "ActionCableClient", :git => 'https://github.com/Kaakati/Swift-ActionCableClient.git', :branch => 'master'
+
 ```
 
 #### Carthage
@@ -65,7 +66,7 @@ let roomChannel = client.create("RoomChannel", identifier: room_identifier, auto
 ```swift
 
 // Receive a message from the server. Typically a Dictionary.
-roomChannel.onReceive = { (JSON : Any?, error : ErrorType?) in
+roomChannel.onReceive = { (JSON : Any?, error : Error?) in
     print("Received", JSON, error)
 }
 
