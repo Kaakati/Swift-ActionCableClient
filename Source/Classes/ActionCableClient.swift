@@ -172,7 +172,7 @@ open class ActionCableClient {
         // Check if JSON with Single Object
         if let jsonResponse = JSON as? [String:Any] {
             do {
-                let jsonData = try JSONSerialization.data(withJSONObject: jsonResponse, options: .sortedKeys)
+                let jsonData = try JSONSerialization.data(withJSONObject: jsonResponse, options: .prettyPrinted)
                 let decoder = JSONDecoder()
                 let response = try decoder.decode(T.self, from: jsonData)
                 completion([response])
@@ -182,7 +182,7 @@ open class ActionCableClient {
             }
         } else if let jsonResponse = JSON as? [[String:Any]] { // JSON with Array of Objects
             do {
-                let jsonData = try JSONSerialization.data(withJSONObject: jsonResponse, options: .sortedKeys)
+                let jsonData = try JSONSerialization.data(withJSONObject: jsonResponse, options: .prettyPrinted)
                 let decoder = JSONDecoder()
                 let response = try decoder.decode([T].self, from: jsonData)
                 completion(response)
