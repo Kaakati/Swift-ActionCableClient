@@ -128,7 +128,7 @@ client.onPing = {
 
 ```
 
-### Coadble
+### Codable
 
 ```swift
 /**
