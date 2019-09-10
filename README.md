@@ -128,6 +128,50 @@ client.onPing = {
 
 ```
 
+### Coadble
+
+```swift
+/**
+ Returns Object from ActionCable Response
+
+ - Parameter object: Codable object
+ - Parameter JSON: ActionCable JSON response of type Any
+
+ - Returns: Array in a Completion block.
+ */
+@available(iOS 11.0, *)
+func serializeActionCableObject<T: Codable>(object: T.Type, JSON : Any? ,completion: ([T]) -> ()) {
+    // Check if JSON with Single Object
+    if let jsonResponse = JSON as? [String:Any] {
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: jsonResponse, options: .sortedKeys)
+            let decoder = JSONDecoder()
+            let response = try decoder.decode(T.self, from: jsonData)
+            completion([response])
+            print("Recieved Single Object JSON")
+        } catch let err {
+            print("Single Object JSON Parsing Error", err)
+        }
+    } else if let jsonResponse = JSON as? [[String:Any]] { // JSON with Array of Objects
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: jsonResponse, options: .sortedKeys)
+            let decoder = JSONDecoder()
+            let response = try decoder.decode([T].self, from: jsonData)
+            completion(response)
+            print("Recieved Multiple Objects JSON")
+        } catch let err {
+            print("Multiple Objects JSON Parsing Error", err)
+        }
+    }
+}
+
+// Useage:
+
+self.serializeActionCableObject(object: User.self, JSON: JSON, completion: { (users) in
+    print(users.first?.name)
+})
+```
+
 For more documentation, see the [wiki](https://github.com/danielrhodes/Swift-ActionCableClient/wiki/Documentation)
 
 ## Requirements
