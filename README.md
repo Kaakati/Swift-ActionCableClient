@@ -167,9 +167,12 @@ func serializeActionCableObject<T: Codable>(object: T.Type, JSON : Any? ,complet
 
 // Useage:
 
-self.serializeActionCableObject(object: User.self, JSON: JSON, completion: { (users) in
-    print(users.first?.name)
-})
+// Receive a message from the server. Typically a Dictionary.
+roomChannel.onReceive = { (JSON : Any?, error : Error?) in
+    self.serializeActionCableObject(object: User.self, JSON: JSON, completion: { (users) in
+        print(users.first?.name)
+    })
+}
 ```
 
 For more documentation, see the [wiki](https://github.com/danielrhodes/Swift-ActionCableClient/wiki/Documentation)
