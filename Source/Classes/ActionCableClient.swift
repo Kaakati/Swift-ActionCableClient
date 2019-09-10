@@ -158,42 +158,7 @@ open class ActionCableClient {
             }
         }
     }
-	
-     /**
-     Returns Object from ActionCable Response
-     
-     - Parameter object: Codable object
-     - Parameter JSON: ActionCable JSON response of type Any
-     
-     - Returns: Array in a Completion block.
-     */
-    @available(iOS 11.0, *)
-    public func serializeActionCableObject<T: Codable>(object: T.Type, JSON : Any? ,completion: ([T]) -> ()) {
-        // Check if JSON with Single Object
-        if let jsonResponse = JSON as? [String:Any] {
-            do {
-                let jsonData = try JSONSerialization.data(withJSONObject: jsonResponse, options: .sortedKeys)
-                let decoder = JSONDecoder()
-                let response = try decoder.decode(T.self, from: jsonData)
-                completion([response])
-                print("Recieved Single Object JSON")
-            } catch let err {
-                print("Single Object JSON Parsing Error", err)
-            }
-        } else if let jsonResponse = JSON as? [[String:Any]] { // JSON with Array of Objects
-            do {
-                let jsonData = try JSONSerialization.data(withJSONObject: jsonResponse, options: .sortedKeys)
-                let decoder = JSONDecoder()
-                let response = try decoder.decode([T].self, from: jsonData)
-                completion(response)
-                print("Recieved Multiple Objects JSON")
-            } catch let err {
-                print("Multiple Objects JSON Parsing Error", err)
-            }
-        }
-    }
-    
-  
+
     @discardableResult
     internal func transmit(_ data: ActionPayload? = nil, on channel: Channel, as command: Command) throws -> Bool {
         // First let's see if we can even encode this data
